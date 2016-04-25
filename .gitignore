@@ -1,6 +1,8 @@
+.DS_Store
+npm-debug.log
 /node_modules
 /dist
 /.tmp
 /.sass-cache
 /bower_components
-/.c9
+/static/bundle.*
