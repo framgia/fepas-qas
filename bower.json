@@ -1,0 +1,18 @@
+{
+  "name": "fepas-qas",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Tran Van Luan (tran.van.luan@framgia.com)"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/tranluan91/fepas-qas",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
