@@ -24,6 +24,11 @@ class Navbar extends Component {
                   <i className="fa fa-sign-out fa-fw"></i> Logout
                 </Link>
               </li>
+              <li>
+                <Link to="/profile">
+                  <i className="fa fa-user fa-fw"></i> Profile
+                </Link>
+              </li>
             </ul>
           </li>
         </ul>
