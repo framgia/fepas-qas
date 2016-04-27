@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { openAuth, logoutUser } from '../actions/auth';
+import { authWithGoogle, logoutUser } from '../actions/auth';
 import C from '../constants';
 
 class Auth extends Component {
@@ -19,7 +19,7 @@ class Auth extends Component {
       );
       default: return (
         <div>
-          <button onClick={props.openAuth}>Log in</button>
+          <button onClick={props.authWithGoogle}>Login with Google+</button>
         </div>
       );
     }
@@ -34,7 +34,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  openAuth,
+  authWithGoogle,
   logoutUser,
 };
 
