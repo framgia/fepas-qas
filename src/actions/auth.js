@@ -38,8 +38,13 @@ export const openAuth = () => {
 
 export const logoutUser = () => {
   return (dispatch) => {
-    dispatch({ type: C.AUTH_LOGOUT });
-    fireRef.unauth();
+    fireRef.onAuth((authData) => {
+      if (authData && authData.google) {
+        dispatch({ type: C.AUTH_LOGOUT });
+        fireRef.unauth();
+      }
+      browserHistory.push('/');
+    });
   };
 };
 
