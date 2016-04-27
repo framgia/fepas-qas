@@ -49,21 +49,55 @@ export const logoutUser = () => {
 };
 
 export const authWithGoogle = () => {
-  return (dispatch) => {
-    fireRef.authWithOAuthPopup('google', (error, authData) => {
-      if (error) {
-        dispatch({ type: C.FEEDBACK_DISPLAY_ERROR, error: `Login failed! ${error}` });
-        dispatch({ type: C.AUTH_LOGOUT });
-      } else {
-        console.log('Authenticated successfully with payload:', authData);
-        dispatch({
-          type: C.AUTH_LOGIN,
-          uid: authData.uid,
-          username: authData.google.displayName,
-          profileImageUrl: authData.google.profileImageURL
-        });
-        browserHistory.push('/');
-      }
+  const _authDispatch = (dispatch) => {
+    return new Promise((resolve, reject) => {
+      fireRef.authWithOAuthPopup('google', (error, authData) => {
+        if (error) {
+          dispatch({ type: C.FEEDBACK_DISPLAY_ERROR, error: `Login failed! ${error}` });
+          dispatch({ type: C.AUTH_LOGOUT });
+          reject(error);
+        } else {
+          console.log('Authenticated successfully with payload:', authData);
+          dispatch({
+            type: C.AUTH_LOGIN,
+            uid: authData.uid,
+            username: authData.google.displayName,
+            profileImageUrl: authData.google.profileImageURL
+          });
+          browserHistory.push('/');
+          console.log('Resolving...');
+          resolve(authData);
+        }
+      });
     });
+  };
+
+  const _syncProfile = (authData) => {
+    console.log('_syncUser', authData);
+    return new Promise((resolve) => {
+      console.log('Promise');
+      fireRef.child('profiles').equalTo(authData.uid).once('value').then((snap) => {
+        console.log(snap.val());
+        if (!snap.exists()) {
+          console.log('Pushing...');
+          const profileInfo = authData[authData.provider].cachedUserProfile;
+          const profile = {
+            uid: authData.uid,
+            firstName: profileInfo.family_name,
+            lastName: profileInfo.given_name,
+            gender: profileInfo.gender,
+            displayName: authData[authData.provider].displayName
+          };
+          fireRef.child('profiles').push(profile).then(console.log);
+          resolve();
+        }
+      });
+    });
+  };
+
+  return (dispatch) => {
+    _authDispatch(dispatch).then((authData) => {
+      _syncProfile(authData);
+    }, console.log);
   };
 };

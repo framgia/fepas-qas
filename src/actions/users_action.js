@@ -1,12 +1,12 @@
 import C from '../constants';
 import Firebase from 'firebase';
 
-const userRef = new Firebase(C.FIREBASE_URI).child('users');
+const profileRef = new Firebase(C.FIREBASE_URI).child('profiles');
 
 export const listenToProfile = () => {
   return (dispatch, getState) => {
     const state = getState();
-    userRef.orderByChild('uid').equalTo(state.auth.uid).once('child_added').then((snap) => {
+    profileRef.orderByChild('uid').equalTo(state.auth.uid).once('child_added').then((snap) => {
       console.log('listenToProfile', snap.val());
       return dispatch({
         type: C.PROFILE_RESPONSE_SUCCESS,
@@ -25,9 +25,9 @@ export const submitProfile = (profile) => {
   return (dispatch, getState) => {
     const state = getState();
     dispatch({ type: C.PROFILE_DATA_SUBMITTING });
-    userRef.orderByChild('uid').equalTo(state.auth.uid).once('child_added').then((snap) => {
+    profileRef.orderByChild('uid').equalTo(state.auth.uid).once('child_added').then((snap) => {
       console.log('submitting now', snap, profile);
-      userRef.child(snap.key()).set(profile).then((error) => {
+      profileRef.child(snap.key()).set(profile).then((error) => {
         if (!error) {
           dispatch({ type: C.PROFILE_DATA_UPDATED });
         }
