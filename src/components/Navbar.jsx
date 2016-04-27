@@ -14,10 +14,17 @@ class Navbar extends Component {
               src={props.auth.profileImageUrl} alt={props.auth.username}
             />
           </li>
-          <li>
-            <Link to="/" onClick={props.logoutUser}>
-              <span className="glyphicon glyphicon-log-out"></span> Logout
-            </Link>
+          <li className="dropdown">
+            <a className="dropdown-toggle" data-toggle="dropdown" href="#">
+              <span className="caret"></span>
+            </a>
+            <ul className="dropdown-menu">
+              <li>
+                <Link to="/logout">
+                  <i className="fa fa-sign-out fa-fw"></i> Logout
+                </Link>
+              </li>
+            </ul>
           </li>
         </ul>
       );
