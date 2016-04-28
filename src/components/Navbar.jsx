@@ -20,13 +20,13 @@ class Navbar extends Component {
             </a>
             <ul className="dropdown-menu">
               <li>
-                <Link to="/logout">
-                  <i className="fa fa-sign-out fa-fw"></i> Logout
+                <Link to="/profile">
+                  <i className="fa fa-user fa-fw"></i> Profile
                 </Link>
               </li>
               <li>
-                <Link to="/profile">
-                  <i className="fa fa-user fa-fw"></i> Profile
+                <Link to="/logout">
+                  <i className="fa fa-sign-out fa-fw"></i> Logout
                 </Link>
               </li>
             </ul>
