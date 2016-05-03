@@ -4,7 +4,7 @@ import Firebase from 'firebase';
 import store from '../store';
 import { connect } from 'react-redux';
 
-const fireRef = new Firebase(C.FIREBASE_URI).child('questions');
+const fireRef = new Firebase(C.FIREBASE_URI);
 
 class Question extends Component {
   componentWillMount() {
@@ -14,8 +14,14 @@ class Question extends Component {
 
   getQuestionById(id) {
     return (dispatch) => {
-      fireRef.orderByChild('uid').equalTo(id).once('child_added').then((snap) => {
+      const fireRefQuestion = fireRef.child('questions');
+      const fireRefComment = fireRef.child('comments');
+      fireRefQuestion.orderByChild('uid').equalTo(id).once('child_added').then((snap) => {
         const question = snap.val();
+        question.comments = [];
+        fireRefComment.orderByChild('qid').equalTo(id).on('child_added', (snapshot) => {
+          question.comments.push(snapshot.val());
+        });
         return dispatch({
           type: C.QUESTION_DETAIL_GET,
           data: question
@@ -28,11 +34,17 @@ class Question extends Component {
     const question = this.props.question;
     let content;
     if (question.status) {
+      const commentView = question.data.comments.map((comment) => {
+        return (
+          <li key={comment.id}>{comment.content}</li>
+        );
+      });
       content = (
         <div>
           <p>Title: {question.data.title}</p>
           <p>Content: {question.data.content}</p>
           <p>Tags: {question.data.tags}</p>
+          <ul>Comments: {commentView}</ul>
         </div>
       );
     } else {
