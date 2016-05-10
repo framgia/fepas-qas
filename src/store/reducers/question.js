@@ -1,8 +1,11 @@
 import C from '../../constants';
 
 const initialState = {
-  status: false,
-  data: {}
+  hasReceiveData: false,
+  isSubmitting: false,
+  isError: false,
+  data: {},
+  status: false
 };
 
 export default (state, action) => {
@@ -11,6 +14,16 @@ export default (state, action) => {
       return Object.assign({}, state, {
         status: true,
         data: action.data,
+      });
+    case C.QUESTION_DATA_SUBMITTING:
+      return Object.assign({}, state, {
+        hasReceiveData: false,
+        isSubmitting: true
+      });
+    case C.QUESTION_DATA_UPDATED:
+      return Object.assign({}, state, {
+        hasReceiveData: true,
+        isSubmitting: false
       });
     default: return state || initialState;
   }
