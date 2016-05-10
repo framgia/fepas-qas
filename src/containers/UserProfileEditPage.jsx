@@ -92,6 +92,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   submitProfile
-};
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserProfileEditPage);
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfileEditPage)
