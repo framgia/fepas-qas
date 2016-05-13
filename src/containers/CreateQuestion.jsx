@@ -13,9 +13,11 @@ class CreateQuestion extends Component {
 
   componentDidMount() {
     this._editor = window.CKEDITOR.replace('new_question');
-    window.CKEDITOR.instances.new_question.on('key', (e) => {
-      Object.assign(this.props.data, {
-        ['content']: e.editor.getData().trim()
+    window.CKEDITOR.instances.new_answer.on('contentDom', (e) => {
+      window.CKEDITOR.instances.new_answer.document.on('keyup', () => {
+        Object.assign(this.props.data, {
+          ['content']: e.editor.getData().trim()
+        });
       });
     });
   }

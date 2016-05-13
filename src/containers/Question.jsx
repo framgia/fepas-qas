@@ -3,6 +3,7 @@ import C from '../constants';
 import Firebase from 'firebase';
 import store from '../store';
 import { connect } from 'react-redux';
+import CommentForm from '../components/CommentForm';
 
 const fireRef = new Firebase(C.FIREBASE_URI);
 
@@ -34,7 +35,7 @@ class Question extends Component {
     const question = this.props.question;
     let content;
     if (question.status) {
-      const commentView = question.data.comments.map((comment) => {
+      const commentView = question.data.comments.reverse().map((comment) => {
         return (
           <li key={comment.id}>{comment.content}</li>
         );
@@ -45,11 +46,12 @@ class Question extends Component {
           <p>Content: {question.data.content}</p>
           <p>Tags: {question.data.tags}</p>
           <ul>Comments: {commentView}</ul>
+          <CommentForm qid={question.data.uid} />
         </div>
       );
     } else {
       content = (
-        <p></p>
+        <CommentForm />
       );
     }
     return content;
