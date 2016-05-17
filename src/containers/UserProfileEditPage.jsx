@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { listenToProfile, submitProfile } from '../actions/users_action';
 import store from '../store';
-import InputField from '../components/InputField';
+import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import Paper from 'material-ui/Paper';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import CircularProgress from 'material-ui/CircularProgress';
+import CircularProgressDeterminate from '../components/CircularProgressDeterminate';
 
 class UserProfileEditPage extends Component {
   constructor() {
@@ -10,6 +16,16 @@ class UserProfileEditPage extends Component {
     // Bind event handle by this kind
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFieldChange = this.handleFieldChange.bind(this);
+    this.state = {
+      firstNameError: '',
+      lastNameError: '',
+      displayNameError: '',
+      disabled: false,
+    };
+  }
+
+  getChildContext() {
+    return { muiTheme: getMuiTheme(baseTheme) };
   }
 
   componentWillMount() {
@@ -29,6 +45,21 @@ class UserProfileEditPage extends Component {
       Object.assign(this.props.data, {
         [field]: e.target.value.trim()
       });
+      const stateToSet = {};
+      const value = e.target.value.trim();
+      stateToSet[field] = value;
+      if (value === '') {
+        stateToSet[`${field}Error`] = 'This field is required';
+        this.setState({
+          disabled: true
+        });
+      } else {
+        stateToSet[`${field}Error`] = '';
+        this.setState({
+          disabled: false
+        });
+      }
+      this.setState(stateToSet);
     };
   }
 
@@ -36,26 +67,43 @@ class UserProfileEditPage extends Component {
     let partialView;
     // Setup template if data is received
     if (this.props.data) {
-      const { firstName, lastName, displayName } = this.props.data;
       partialView = (
-        <form onSubmit={ this.handleSubmit }>
-          First Name:
-          <InputField type={ 'text' } placeholder={ 'First Name' }
-            value={ firstName } handleChange={ this.handleFieldChange('firstName') }
-          />
-          <br />
-          Last Name:
-          <InputField type={ 'text' } placeholder={ 'Last Name' }
-            value={ lastName } handleChange={ this.handleFieldChange('lastName') }
-          />
-          <br />
-          Display Name:
-          <InputField type={ 'text' } placeholder={ 'Display Name' }
-            value={ displayName } handleChange={ this.handleFieldChange('displayName') }
-          />
-          <br />
-          <input type="submit" value="Save" />
-        </form>
+        <Paper zDepth={2}>
+          <div className="profile-form">
+            <TextField
+              hintText="First Name"
+              value={this.props.data.firstName}
+              fullWidth
+              floatingLabelText="First Name"
+              floatingLabelFixed
+              errorText={this.state.firstNameError}
+              onChange={this.handleFieldChange('firstName')}
+            />
+            <TextField
+              hintText="Last Name"
+              value={this.props.data.lastName}
+              fullWidth
+              floatingLabelText="Last Name"
+              floatingLabelFixed
+              errorText={this.state.lastNameError}
+              onChange={this.handleFieldChange('lastName')}
+            />
+            <TextField
+              hintText="Display Name"
+              value={this.props.data.displayName}
+              fullWidth
+              floatingLabelText="Display Name"
+              floatingLabelFixed
+              errorText={this.state.displayNameError}
+              onChange={this.handleFieldChange('displayName')}
+            />
+            <div className="btn-profile-submit">
+              <RaisedButton label="Submit" primary onClick={this.handleSubmit}
+                disabled={this.state.disabled}
+              />
+            </div>
+          </div>
+        </Paper>
       );
     }
 
@@ -65,14 +113,13 @@ class UserProfileEditPage extends Component {
       containerView = partialView;
     } else if (this.props.isSubmitting) {
       containerView = (
-        <div>
-          Submitting...
-        </div>
+        <CircularProgress className="loading" />
       );
     } else {
       containerView = (
         <div>
-          Loading data...<br />Did you logged in?
+          <CircularProgressDeterminate />
+          Did you logged in?
         </div>
       );
     }
@@ -92,6 +139,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   submitProfile
+};
+
+UserProfileEditPage.childContextTypes = {
+  muiTheme: React.PropTypes.object.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfileEditPage);
