@@ -1,5 +1,7 @@
 .profile-image {
-  float: right;
-  max-width: 8%;
-  margin-top: 4px;
+  margin: auto;
+}
+
+a:hover {
+    text-decoration: none;
 }
