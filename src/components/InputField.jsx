@@ -19,7 +19,7 @@ export default class InputField extends Component {
 }
 
 InputField.propTypes = {
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   type: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired

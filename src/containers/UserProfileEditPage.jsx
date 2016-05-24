@@ -82,7 +82,7 @@ class UserProfileEditPage extends Component {
 
 const mapStateToProps = (state) => {
   // Extract neccesary properties from reducer
-  const { data, hasReceiveData, isSubmitting } = state.usersReducer;
+  const { data, hasReceiveData, isSubmitting } = state.userReducer;
   return {
     data,
     hasReceiveData,

@@ -26,6 +26,7 @@ class CreateQuestion extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    this.convertTags();
     this.props.submitQuestion(this.props.data);
   }
 
@@ -35,6 +36,16 @@ class CreateQuestion extends Component {
         [field]: e.target.value.trim()
       });
     };
+  }
+
+  convertTags() {
+    const tags = [];
+    if (this.props.data.tag) {
+      this.props.data.tag.split(',').forEach((tag) => {
+        tags.push(tag.trim());
+      });
+    }
+    this.props.data.tag = tags;
   }
 
   render() {
@@ -48,6 +59,12 @@ class CreateQuestion extends Component {
         Question Content:
         <InputTextField rows={ '5' } cols={ '60' } id= { 'new_question' }
           handleChange={ this.handleFieldChange('content') }
+          placeholder={ 'Question content'}
+        />
+        <br />
+        Tags:
+        <InputField type={ 'text' } placeholder={' At least one, max 5 tags'}
+          handleChange={ this.handleFieldChange('tag') }
         />
         <br />
         <input type="submit" value="Create" />
@@ -58,7 +75,7 @@ class CreateQuestion extends Component {
 
 const mapStateToProps = (state) => {
   // Extract neccesary properties from reducer
-  const { data, hasReceiveData, isSubmitting } = state.question;
+  const { data, hasReceiveData, isSubmitting } = state.questionReducer;
   return {
     data,
     hasReceiveData,
