@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import CommentForm from '../components/CommentForm';
-import { Link } from 'react-router';
 
 class Question extends Component {
   renderTagLinks(tag) {
@@ -8,7 +6,7 @@ class Question extends Component {
       return (
         <p>
           {tag.map((t) =>
-            <Link key={t} to={`questions?tag=${t}`}>#{t}, </Link>
+            <a key={t} href={`/questions?tag=${t}`}>#{t}, </a>
           )}
         </p>
       );
@@ -36,7 +34,6 @@ class Question extends Component {
         <p>Content: {question.content}</p>
         <div>Tags: {this.renderTagLinks(question.tag)}</div>
         <ul>Comments: {this.renderComments(question.comments)}</ul>
-        <CommentForm qid={uid} />
       </div>
     );
   }
