@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
+import MuiComponent from '../components/MuiComponent';
 import { connect } from 'react-redux';
 import { submitQuestion } from '../actions/questions_action';
-import InputField from '../components/InputField';
-import InputTextField from '../components/InputTextField';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
 
-class CreateQuestion extends Component {
+class CreateQuestion extends MuiComponent {
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -13,11 +14,9 @@ class CreateQuestion extends Component {
 
   componentDidMount() {
     this._editor = window.CKEDITOR.replace('new_question');
-    window.CKEDITOR.instances.new_answer.on('contentDom', (e) => {
-      window.CKEDITOR.instances.new_answer.document.on('keyup', () => {
-        Object.assign(this.props.data, {
-          ['content']: e.editor.getData().trim()
-        });
+    window.CKEDITOR.instances.new_question.on('keyup', (e) => {
+      Object.assign(this.props.data, {
+        ['content']: e.editor.getData().trim()
       });
     });
   }
@@ -54,22 +53,23 @@ class CreateQuestion extends Component {
     return (
       <form onSubmit={ this.handleSubmit }>
         Question Title:
-        <InputField type={ 'text' } placeholder={' Your question title'}
+        <TextField id="question_title" type="text" placeholder=" Your question title"
           handleChange={ this.handleFieldChange('title') }
         />
         <br />
         Question Content:
-        <InputTextField rows={ '5' } cols={ '60' } id= { 'new_question' }
+        <br />
+        <TextField rows={ 5 } id="new_question" multiLine fullWidth
           handleChange={ this.handleFieldChange('content') }
           placeholder={ 'Question content'}
         />
         <br />
-        Tags:
-        <InputField type={ 'text' } placeholder={' At least one, max 5 tags'}
+        Tag:
+        <TextField id="question_tag" type="text" placeholder=" At least one, max 5 tags"
           handleChange={ this.handleFieldChange('tag') }
         />
         <br />
-        <input type="submit" value="Create" />
+        <RaisedButton type="submit" label="Create" primary />
       </form>
     );
   }

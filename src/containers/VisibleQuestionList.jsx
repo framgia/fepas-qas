@@ -1,13 +1,14 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-// import { push } from 'react-router-redux';
+import MuiComponent from '../components/MuiComponent';
 import Question from '../components/Question';
 import Loading from '../components/Loading';
 import { fetchQuestion } from '../actions/questions_action';
 import store from '../store';
 import lodash from 'lodash';
+import { List, ListItem } from 'material-ui/List';
 
-class VisibleQuestionList extends Component {
+class VisibleQuestionList extends MuiComponent {
   componentWillMount() {
     const { questions } = this.props;
     const questionId = this.props.params.questionId;
@@ -19,11 +20,11 @@ class VisibleQuestionList extends Component {
     const { status, questions } = this.props;
     let content;
     if (status) {
-      content = (<ul>
+      content = (<List>
         {lodash.map(questions, (question, id) =>
-          <Question key={id} question={question} uid={id} />
+          <ListItem key={id} children= {<Question key={id} question={question} uid={id} />} />
         )}
-      </ul>);
+      </List>);
     } else {
       content = (<Loading />);
     }
