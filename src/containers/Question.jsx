@@ -4,6 +4,8 @@ import Firebase from 'firebase';
 import store from '../store';
 import { connect } from 'react-redux';
 import CommentForm from '../components/CommentForm';
+import { deleteQuestion } from '../actions/questions_action';
+import { deleteComment } from '../actions/comments_action';
 
 const fireRef = new Firebase(C.FIREBASE_URI);
 
@@ -17,7 +19,7 @@ class Question extends Component {
     return (dispatch) => {
       const fireRefQuestion = fireRef.child('questions');
       const fireRefComment = fireRef.child('comments');
-      fireRefQuestion.orderByChild('uid').equalTo(id).once('child_added').then((snap) => {
+      fireRefQuestion.orderByChild('id').equalTo(id).once('child_added').then((snap) => {
         const question = snap.val();
         question.comments = [];
         fireRefComment.orderByChild('qid').equalTo(id).on('child_added', (snapshot) => {
@@ -35,9 +37,30 @@ class Question extends Component {
     const question = this.props.question;
     let content;
     if (question.status) {
-      const commentView = question.data.comments.reverse().map((comment) => {
+      const commentView = question.data.comments.map((comment) => {
+        if (comment.uid === this.props.uid) {
+          return (
+            <div className="row">
+              <div className="col-md-10">
+                <li key={comment.id}>{comment.content}</li>
+              </div>
+              <div className="col-md-2">
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => this.props.deleteComment(comment.id)}
+                >
+                  <span className="glyphicon glyphicon-trash"></span>
+                </button>
+              </div>
+            </div>
+          );
+        }
         return (
-          <li key={comment.id}>{comment.content}</li>
+          <div className="row">
+            <div className="col-md-10">
+              <li key={comment.id}>{comment.content}</li>
+            </div>
+          </div>
         );
       });
       content = (
@@ -45,7 +68,13 @@ class Question extends Component {
           <p>Title: {question.data.title}</p>
           <p>Content: {question.data.content}</p>
           <p>Tags: {question.data.tags}</p>
-          <ul>Comments: {commentView}</ul>
+          <button
+            className="btn btn-danger btn-sm"
+            onClick={() => this.props.deleteQuestion(question.data.id)}
+          >
+            <span className="glyphicon glyphicon-trash"></span>Delete Question
+          </button>
+          <p>Comments: {commentView}</p>
           <CommentForm qid={question.data.uid} />
         </div>
       );
@@ -61,7 +90,13 @@ class Question extends Component {
 const mapStateToProps = (state) => {
   return {
     question: state.question,
+    uid: state.auth.uid
   };
 };
 
-export default connect(mapStateToProps)(Question);
+const mapDispatchToProps = {
+  deleteQuestion,
+  deleteComment
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Question);
