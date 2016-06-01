@@ -3,7 +3,6 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { logoutUser } from '../actions/auth';
 import C from '../constants';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
 import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
@@ -19,8 +18,6 @@ import Avatar from 'material-ui/Avatar';
 const style = {
   backgroundColor: cyan500,
 };
-
-injectTapEventPlugin();
 
 class Navbar extends Component {
   getChildContext() {
@@ -39,14 +36,14 @@ class Navbar extends Component {
         );
         menu = (
           <Menu>
-            <MenuItem><Link to="/profile">Profile</Link></MenuItem>
-            <MenuItem><Link to="/logout">Logout</Link></MenuItem>
+            <Link to="/profile"><MenuItem>Profile</MenuItem></Link>
+            <Link to="/logout"><MenuItem>Logout</MenuItem></Link>
           </Menu>
         );
         break;
       default:
         menu = (
-          <MenuItem><Link to="/auth">Login</Link></MenuItem>
+          <Link to="/auth"><MenuItem>Login</MenuItem></Link>
         );
         break;
     }
