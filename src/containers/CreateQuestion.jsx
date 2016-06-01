@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
+import MuiComponent from '../components/MuiComponent';
 import { connect } from 'react-redux';
 import { submitQuestion } from '../actions/questions_action';
-import InputField from '../components/InputField';
-import InputTextField from '../components/InputTextField';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
 
-class CreateQuestion extends Component {
+class CreateQuestion extends MuiComponent {
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -13,11 +14,9 @@ class CreateQuestion extends Component {
 
   componentDidMount() {
     this._editor = window.CKEDITOR.replace('new_question');
-    window.CKEDITOR.instances.new_answer.on('contentDom', (e) => {
-      window.CKEDITOR.instances.new_answer.document.on('keyup', () => {
-        Object.assign(this.props.data, {
-          ['content']: e.editor.getData().trim()
-        });
+    window.CKEDITOR.instances.new_question.on('keyup', (e) => {
+      Object.assign(this.props.data, {
+        ['content']: e.editor.getData().trim()
       });
     });
   }
@@ -28,6 +27,7 @@ class CreateQuestion extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    this.convertTags();
     this.props.submitQuestion(this.props.data);
   }
 
@@ -39,20 +39,36 @@ class CreateQuestion extends Component {
     };
   }
 
+  convertTags() {
+    const tags = [];
+    if (this.props.data.tag) {
+      this.props.data.tag.split(',').forEach((tag) => {
+        tags.push(tag.trim());
+      });
+    }
+    this.props.data.tag = tags;
+  }
+
   render() {
     return (
       <form onSubmit={ this.handleSubmit }>
-        Question Title:
-        <InputField type={ 'text' } placeholder={' Your question title'}
+        <TextField id="question_title" type="text"
+          hintText="Your question title"
+          floatingLabelText="Question Title"
           handleChange={ this.handleFieldChange('title') }
         />
         <br />
-        Question Content:
-        <InputTextField rows={ '5' } cols={ '60' } id= { 'new_question' }
+        <TextField rows={ 5 } id="new_question" multiLine fullWidth
           handleChange={ this.handleFieldChange('content') }
         />
         <br />
-        <input type="submit" value="Create" />
+        <TextField id="question_tag" type="text"
+          hintText="At least one, max 5 tags"
+          floatingLabelText="Tag"
+          handleChange={ this.handleFieldChange('tag') }
+        />
+        <br />
+        <RaisedButton type="submit" label="Create" primary />
       </form>
     );
   }
@@ -60,7 +76,7 @@ class CreateQuestion extends Component {
 
 const mapStateToProps = (state) => {
   // Extract neccesary properties from reducer
-  const { data, hasReceiveData, isSubmitting } = state.question;
+  const { data, hasReceiveData, isSubmitting } = state.questionReducer;
   return {
     data,
     hasReceiveData,
