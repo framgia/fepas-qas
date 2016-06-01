@@ -1,14 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
+import MuiComponent from '../components/MuiComponent';
+import Subheader from 'material-ui/Subheader';
+import RaisedButton from 'material-ui/RaisedButton';
 
-class Question extends Component {
+class Question extends MuiComponent {
   renderTagLinks(tag) {
     if (tag) {
       return (
-        <p>
+        <div>
           {tag.map((t) =>
-            <a key={t} href={`/questions?tag=${t}`}>#{t}, </a>
+            <RaisedButton
+              key={t} backgroundColor="#E1F5FE"
+              linkButton href={`/questions?tag=${t}`}
+              style={{ lineHeight: '24px', height: '24px', marginRight: '10px' }}
+            >
+              {t}
+            </RaisedButton>
           )}
-        </p>
+        </div>
       );
     }
     return '';
@@ -29,11 +38,17 @@ class Question extends Component {
     const { question, uid } = this.props;
     const link = `questions/${uid}`;
     return (
-      <div style={{ backgroundColor: '#9DB9E2' }}>
-        <p>Title: <a href={link}>{question.title}</a></p>
-        <p>Content: {question.content}</p>
-        <div>Tags: {this.renderTagLinks(question.tag)}</div>
-        <ul>Comments: {this.renderComments(question.comments)}</ul>
+      <div>
+        <Subheader style={{ fontSize: '20px', paddingLeft: '0px' }}>
+          <a href={link}>{question.title}</a>
+        </Subheader>
+        <div>{question.content}</div>
+        <br />
+        <div>{this.renderTagLinks(question.tag)}</div>
+        <br />
+        <div>Comments:
+          <ul>{this.renderComments(question.comments)}</ul>
+        </div>
       </div>
     );
   }

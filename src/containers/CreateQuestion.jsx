@@ -52,20 +52,19 @@ class CreateQuestion extends MuiComponent {
   render() {
     return (
       <form onSubmit={ this.handleSubmit }>
-        Question Title:
-        <TextField id="question_title" type="text" placeholder=" Your question title"
+        <TextField id="question_title" type="text"
+          hintText="Your question title"
+          floatingLabelText="Question Title"
           handleChange={ this.handleFieldChange('title') }
         />
         <br />
-        Question Content:
-        <br />
         <TextField rows={ 5 } id="new_question" multiLine fullWidth
           handleChange={ this.handleFieldChange('content') }
-          placeholder={ 'Question content'}
         />
         <br />
-        Tag:
-        <TextField id="question_tag" type="text" placeholder=" At least one, max 5 tags"
+        <TextField id="question_tag" type="text"
+          hintText="At least one, max 5 tags"
+          floatingLabelText="Tag"
           handleChange={ this.handleFieldChange('tag') }
         />
         <br />
