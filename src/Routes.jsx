@@ -8,6 +8,7 @@ import HomePage from './containers/HomePage';
 import UserProfileEditPage from './containers/UserProfileEditPage';
 import VisibleQuestionList from './containers/VisibleQuestionList';
 import CreateQuestion from './containers/CreateQuestion';
+import Comment from './containers/Comment';
 
 export default (
   <Route path="/" component={ App }>
@@ -18,6 +19,7 @@ export default (
     <Route name="question detail" path="questions/:questionId" component={ VisibleQuestionList } />
     <Route name="create question" path="new_question" component={ CreateQuestion } />
     <Route name="questions" path="questions" component= { VisibleQuestionList } />
+    <Route name="comment list" path="comments" component={ Comment } />
     <Route path="*" component={HomePage} />
   </Route>
 );

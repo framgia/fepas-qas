@@ -4,4 +4,6 @@ export default {
   COMMENT_DATA_UPDATED: 'COMMENT_DATA_UPDATED',
   // Status
   COMMENT_RESPONSE_FAILURE: '@@/comment:CODE2XX',
+  // Actions
+  COMMENTS_GET: 'GET@@/comments',
 };

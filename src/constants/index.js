@@ -9,5 +9,6 @@ export default Object.assign({},
   firebase,
   question,
   usersConstant,
-  comment
+  comment,
+  usersConstant
 );
