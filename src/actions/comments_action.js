@@ -16,3 +16,18 @@ export const submitComment = (answer) => {
     });
   };
 };
+
+export const deleteComment = (commentId) => {
+  return (dispatch) => {
+    dispatch({ type: C.DELETE_COMMENT });
+    commentRef.orderByChild('id').equalTo(commentId).once('child_added').then((snap) => {
+      commentRef.child(snap.key()).remove().then((error) => {
+        if (!error) {
+          dispatch({ type: C.COMMENT_DELETED });
+        } else {
+          dispatch({ type: C.COMMENT_DELETE_FAILURE });
+        }
+      });
+    });
+  };
+};
