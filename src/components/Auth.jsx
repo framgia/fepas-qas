@@ -30,7 +30,7 @@ class Auth extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { auth: state.auth };
+  return { auth: state.authReducer };
 };
 
 const mapDispatchToProps = {

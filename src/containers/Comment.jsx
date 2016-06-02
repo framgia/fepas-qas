@@ -17,7 +17,7 @@ class Comments extends Component {
   getCurrentUserComment() {
     return (dispatch, getState) => {
       const state = getState();
-      const id = state.auth.uid;
+      const id = state.authReducer.uid;
       const fireRefQues = fireRef.child('questions');
       const fireRefComment = fireRef.child('comments');
       fireRefComment.orderByChild('uid').equalTo(id).on('value', (snaps) => {

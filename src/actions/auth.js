@@ -15,7 +15,7 @@ export const listenToAuth = () => {
           profileImageUrl: authData.google.profileImageURL
         });
       } else {
-        if (getState().auth.status !== C.AUTH_ANONYMOUS) {
+        if (getState().authReducer.status !== C.AUTH_ANONYMOUS) {
           dispatch({ type: C.AUTH_LOGOUT });
         }
       }

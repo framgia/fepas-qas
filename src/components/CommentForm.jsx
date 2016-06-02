@@ -50,7 +50,7 @@ class CreateComment extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { auth: state.auth, data: {} };
+  return { auth: state.authReducer, data: {} };
 };
 
 const mapDispatchToProps = {

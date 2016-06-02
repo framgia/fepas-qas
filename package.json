@@ -51,5 +51,6 @@
     "answer"
   ],
   "author": "Framgia Vietnam",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {}
 }
