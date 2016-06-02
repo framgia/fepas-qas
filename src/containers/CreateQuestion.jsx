@@ -14,7 +14,7 @@ class CreateQuestion extends MuiComponent {
 
   componentDidMount() {
     this._editor = window.CKEDITOR.replace('new_question');
-    window.CKEDITOR.instances.new_question.on('keyup', (e) => {
+    window.CKEDITOR.instances.new_question.on('key', (e) => {
       Object.assign(this.props.data, {
         ['content']: e.editor.getData().trim()
       });
@@ -55,17 +55,17 @@ class CreateQuestion extends MuiComponent {
         <TextField id="question_title" type="text"
           hintText="Your question title"
           floatingLabelText="Question Title"
-          handleChange={ this.handleFieldChange('title') }
+          onChange={ this.handleFieldChange('title') }
         />
         <br />
         <TextField rows={ 5 } id="new_question" multiLine fullWidth
-          handleChange={ this.handleFieldChange('content') }
+          onChange={ this.handleFieldChange('content') }
         />
         <br />
         <TextField id="question_tag" type="text"
           hintText="At least one, max 5 tags"
           floatingLabelText="Tag"
-          handleChange={ this.handleFieldChange('tag') }
+          onChange={ this.handleFieldChange('tag') }
         />
         <br />
         <RaisedButton type="submit" label="Create" primary />
