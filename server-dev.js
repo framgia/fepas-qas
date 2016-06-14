@@ -22,10 +22,12 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'static', 'index.html'));
 });
 
-app.listen(process.env.PORT || 5000, process.env.IP || 'localhost', (err) => {
+var serverHost = process.env.IP || '0.0.0.0';
+var serverPort = process.env.PORT || 5000;
+app.listen(serverPort, serverHost, (err) => {
   if (err) {
     console.log(err);
     return;
   }
-  console.log('Listening...');
+  console.log('Listening...', serverHost, ':', serverPort);
 });

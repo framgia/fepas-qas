@@ -13,7 +13,6 @@ import QuestionCreatePage from './containers/QuestionCreatePage';
 import QuestionListPage from './containers/QuestionListPage';
 import QuestionPage from './containers/QuestionPage';
 import QuestionEditPage from './containers/QuestionEditPage';
-// import SearchPage from './containers/SearchPage';
 
 export default (
   <Route path="/" component={ App }>

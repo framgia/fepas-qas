@@ -16,3 +16,16 @@ Build the production version of your assets in the 'static' directory
 ```javascript
 npm run build
 ```
+
+## Use Docker & C9 IDE
+- Install `docker`
+- Install `docker-compose`
+
+For first running time:
+```sh
+docker-compose up --build
+```
+And next time, run without `--build`
+
+Access IDE: `http://localhost/ide.html`
+Access web: `http://localhost:5000`
