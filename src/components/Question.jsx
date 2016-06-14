@@ -1,5 +1,5 @@
 import React from 'react';
-import MuiComponent from '../components/MuiComponent';
+import MuiComponent from './MuiComponent';
 import Subheader from 'material-ui/Subheader';
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -23,20 +23,9 @@ class Question extends MuiComponent {
     return '';
   }
 
-  renderComments(comments) {
-    if (comments) {
-      comments.reverse().map((cmt) => {
-        return (
-          <li key={cmt.id}>{cmt.content}</li>
-        );
-      });
-    }
-    return '';
-  }
-
   render() {
     const { question, uid } = this.props;
-    const link = `questions/${uid}`;
+    const link = `question/${uid}`;
     return (
       <div>
         <Subheader style={{ fontSize: '20px', paddingLeft: '0px' }}>
@@ -46,9 +35,6 @@ class Question extends MuiComponent {
         <br />
         <div>{this.renderTagLinks(question.tag)}</div>
         <br />
-        <div>Comments:
-          <ul>{this.renderComments(question.comments)}</ul>
-        </div>
       </div>
     );
   }

@@ -11,12 +11,11 @@ import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import Subheader from 'material-ui/Subheader';
 
-class VisibleQuestionList extends MuiComponent {
+class QuestionListPage extends MuiComponent {
   componentWillMount() {
     const { questions } = this.props;
-    const questionId = this.props.params.questionId;
     const tag = this.props.location.query.tag;
-    store.dispatch(fetchQuestion(questions, questionId, tag));
+    store.dispatch(fetchQuestion(questions, tag));
   }
 
   render() {
@@ -49,18 +48,19 @@ class VisibleQuestionList extends MuiComponent {
   }
 }
 
-VisibleQuestionList.propTypes = {
+QuestionListPage.propTypes = {
   questions: PropTypes.object,
   status: PropTypes.bool
 };
 
-VisibleQuestionList.contextTypes = {
+QuestionListPage.contextTypes = {
   router: PropTypes.object
 };
 
 const mapStateToProps = (state) => {
-  const { questions, status } = state.questionReducer;
+  const questions = state.questionReducer.data;
+  const status = state.questionReducer.status;
   return { questions, status };
 };
 
-export default connect(mapStateToProps)(VisibleQuestionList);
+export default connect(mapStateToProps)(QuestionListPage);

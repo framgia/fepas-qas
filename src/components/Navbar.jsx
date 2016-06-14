@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import MuiComponent from './MuiComponent';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { logoutUser } from '../actions/auth';
@@ -10,8 +11,6 @@ import MenuItem from 'material-ui/MenuItem';
 import Menu from 'material-ui/Menu';
 import FontIcon from 'material-ui/FontIcon';
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
-import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { cyan500, grey50 } from 'material-ui/styles/colors';
 import Avatar from 'material-ui/Avatar';
 
@@ -19,10 +18,7 @@ const style = {
   backgroundColor: cyan500,
 };
 
-class Navbar extends Component {
-  getChildContext() {
-    return { muiTheme: getMuiTheme(baseTheme) };
-  }
+class Navbar extends MuiComponent {
   getRightNavbar(props) {
     let avatar;
     let menu;
@@ -77,15 +73,11 @@ class Navbar extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { auth: state.auth };
+  return { auth: state.authReducer };
 };
 
 const mapDispatchToProps = {
-  logoutUser,
-};
-
-Navbar.childContextTypes = {
-  muiTheme: React.PropTypes.object.isRequired,
+  logoutUser
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

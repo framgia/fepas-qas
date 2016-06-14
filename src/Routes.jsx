@@ -1,14 +1,18 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
+// component
 import Auth from './components/Auth';
 import Logout from './components/Logout';
+
+// container
 import App from './containers/App';
 import HomePage from './containers/HomePage';
 import UserProfileEditPage from './containers/UserProfileEditPage';
-import VisibleQuestionList from './containers/VisibleQuestionList';
-import CreateQuestion from './containers/CreateQuestion';
-import Comment from './containers/Comment';
+import QuestionCreatePage from './containers/QuestionCreatePage';
+import QuestionListPage from './containers/QuestionListPage';
+import QuestionPage from './containers/QuestionPage';
+import QuestionEditPage from './containers/QuestionEditPage';
 
 export default (
   <Route path="/" component={ App }>
@@ -16,10 +20,10 @@ export default (
     <Route name="auth" path="auth" component={ Auth } />
     <Route name="profile" path="profile" component={ UserProfileEditPage } />
     <Route name="logout" path="logout" component={ Logout } />
-    <Route name="question detail" path="questions/:questionId" component={ VisibleQuestionList } />
-    <Route name="create question" path="new_question" component={ CreateQuestion } />
-    <Route name="questions" path="questions" component= { VisibleQuestionList } />
-    <Route name="comment list" path="comments" component={ Comment } />
-    <Route path="*" component={HomePage} />
+    <Route name="questions list" path="questions" component= { QuestionListPage } />
+    <Route name="question detail" path="question/:questionId" component={ QuestionPage } />
+    <Route name="question create" path="new_question" component={ QuestionCreatePage } />
+    <Route name="question edit" path="question/edit/:questionId" component={ QuestionEditPage } />
+    <Route path="*" component={ HomePage } />
   </Route>
 );

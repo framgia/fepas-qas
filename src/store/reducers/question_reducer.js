@@ -5,9 +5,7 @@ const initialState = {
   isSubmitting: false,
   isError: false,
   status: false,
-  data: {},
-  question: {},
-  questions: {}
+  data: {}
 };
 
 export default (state, action) => {
@@ -30,7 +28,7 @@ export default (state, action) => {
     case C.RECEIVE_QUESTION:
       return Object.assign({}, state, {
         status: true,
-        questions: action.questions
+        data: action.data
       });
     default: return state || initialState;
   }
